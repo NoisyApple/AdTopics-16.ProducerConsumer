@@ -19,14 +19,14 @@ public class Consumer implements Runnable {
       try {
         Thread.sleep(generator.nextInt(3000));
         sum += sharedBuffer.take();
-        System.out.println("\t\t" + sum);
+        // System.out.println("\t\t\t" + sum);
       } catch (InterruptedException exception) {
         exception.printStackTrace();
       }
 
     }
 
-    System.out.println("Consumer read values, total: " + sum + "\nTerminating consumer\n");
+    System.out.println("\nConsumer read values, total: " + sum + "\nTerminating consumer\n");
 
   }
 }

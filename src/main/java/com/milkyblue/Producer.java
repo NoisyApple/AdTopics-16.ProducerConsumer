@@ -19,14 +19,14 @@ public class Producer implements Runnable {
         Thread.sleep(generator.nextInt(3000));
         sharedBuffer.put(count);
         sum += count;
-        System.out.println("\t" + sum);
+        // System.out.println("\t" + sum);
       } catch (InterruptedException exception) {
         exception.printStackTrace();
       }
 
     }
 
-    System.out.println("Producer stopped producing.\nTerminating produceer.");
+    System.out.println("\nProducer stopped producing\nTerminating produceer\n");
 
   }
 }
