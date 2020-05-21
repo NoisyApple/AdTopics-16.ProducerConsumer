@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import com.github.tomaslanger.chalk.Chalk;
 
+// ProduceerConsumerGUI class. Models the GUI.
 public class ProducerConsumerGUI {
 
   private JFrame mainFrame;
@@ -20,7 +21,9 @@ public class ProducerConsumerGUI {
   private JCheckBox chkSync;
   private JButton btnExecute;
 
+  // Class constructor.
   public ProducerConsumerGUI() {
+    // Enables color on terminal outputs.
     Chalk.setColorEnabled(true);
 
     mainFrame = new JFrame("Producer Consumer");
@@ -30,18 +33,25 @@ public class ProducerConsumerGUI {
     chkSync = new JCheckBox("Enable Synchronization");
     btnExecute = new JButton("Execute");
 
+    // Main methods are called.
     addAttributes();
     addListeners();
     build();
     launch();
   }
 
+  // Adds attributes to elements in the class.
   private void addAttributes() {
     mainFrame.setResizable(false);
     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 
+  // Sets listeners to elements in GUI.
   private void addListeners() {
+
+    // Creates a Buffer depending on the chkSync state, then with an ExecutorService
+    // instance, executes a Producer and a Consumer that will be accessing to the
+    // Buffer.
     btnExecute.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
 
@@ -49,6 +59,7 @@ public class ProducerConsumerGUI {
 
         ExecutorService executor = Executors.newCachedThreadPool();
 
+        // Buffer created based on chkSync state.
         Buffer sharedBuffer = (isSync) ? new BlockingBuffer() : new UnSyncBuffer();
 
         System.out.print("\033[H\033[2J");
@@ -60,15 +71,16 @@ public class ProducerConsumerGUI {
           System.out.println("------\t\t\t-----\t------------\t------------");
         }
 
+        // Thread execution.
         executor.execute(new Producer(sharedBuffer, isSync));
         executor.execute(new Consumer(sharedBuffer, isSync));
-
         executor.shutdown();
 
       }
     });
   }
 
+  // Builds the GUI.
   private void build() {
     topPanel.add(chkSync);
     bottomPanel.add(btnExecute);
@@ -79,6 +91,7 @@ public class ProducerConsumerGUI {
     mainFrame.add(mainPanel);
   }
 
+  // Launches the GUI by setting to true the visible attribute of the frame.
   private void launch() {
     mainFrame.setVisible(true);
     mainFrame.pack();
